@@ -85,6 +85,8 @@ const Publish = () => {
             />
           </div>
 
+          
+
           {/* Editor and Preview side-by-side */}
           <div className="flex mt-4 gap-4">
             
@@ -108,8 +110,8 @@ const Publish = () => {
             </div>
           </div>
 
-          {/* Publish Button */}
-          <div className="flex justify-center mt-4">
+          {/* Publish Button moved below the Title */}
+          <div className="flex justify-left mt-4 mb-6">
             <button
               onClick={async () => {
                 const response = await axios.post(`${BACKEND_URL}/api/v1/blog`, {
@@ -128,6 +130,7 @@ const Publish = () => {
               Publish post
             </button>
           </div>
+          
         </div>
       </div>
     </div>
