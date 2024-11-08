@@ -56,6 +56,8 @@
 //     }
 
 //     export default Publishimport React, { ChangeEvent, useState } from 'react';
+
+
 import { Appbar } from '../components/Appbar';
 import axios from 'axios';
 import { BACKEND_URL } from '../config';
@@ -73,34 +75,43 @@ const Publish = () => {
       <div className="flex justify-center pt-6">
         <div className="w-2/3">
           
-          {/* Title Input with even spacing */}
+          {/* Title Input with Preview */}
           <div className="mb-6">
             <label className="block mb-2 text-md font-medium text-gray-900">Title</label>
-            <input
+            <textarea
               onChange={(e) => setTitle(e.target.value)}
-              type="text"
-              className="bg-gray-900 py-3 dark:text-white dark:bg-gray-700 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+              value={title}
+              className="bg-gray-900 py-3 dark:text-white dark:bg-gray-700 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 resize-none overflow-hidden"
+              style={{ height: 'auto' }}
+              placeholder="Title"
+              rows={1}
+              onInput={(e) => {
+                e.currentTarget.style.height = 'auto';
+                e.currentTarget.style.height = `${e.currentTarget.scrollHeight}px`;
+              }}
               required
-              placeholder="title" 
             />
+            <div className="mt-2 text-gray-700">
+              <h2 className="font-medium">Title Preview:</h2>
+              <p>{title}</p>
+            </div>
           </div>
 
-          
-
-          {/* Editor and Preview side-by-side */}
           <div className="flex mt-4 gap-4">
             
-            {/* Text Editor with even spacing */}
             <div className="w-1/2">
               <div className="mb-6">
-                <label className="block mb-2 text-md font-medium ">Content</label>
-                <TextEditor onChange={(e) => setDescription(e.target.value)} />
+                <label className="block mb-2 text-md font-medium">Content</label>
+                <TextEditor
+                  onChange={(e) => setDescription(e.target.value)}
+                  content={description}
+                />
               </div>
             </div>
 
-            {/* Preview Area with even spacing */}
+            {/* Preview Area */}
             <div className="w-1/2">
-              <h3 className="text-md font-medium">Preview:</h3>
+              <h3 className="text-md font-medium">Content Preview:</h3>
               <div
                 className="p-4 bg-gray-100 border border-gray-300 rounded-lg mt-2 whitespace-pre-wrap"
                 style={{ whiteSpace: "pre-wrap" }}
@@ -110,8 +121,8 @@ const Publish = () => {
             </div>
           </div>
 
-          {/* Publish Button moved below the Title */}
-          <div className="flex justify-left mt-4 mb-6">
+          {/* Publish Button */}
+          <div className="flex justify-center mt-10 mb-20">
             <button
               onClick={async () => {
                 const response = await axios.post(`${BACKEND_URL}/api/v1/blog`, {
@@ -130,20 +141,26 @@ const Publish = () => {
               Publish post
             </button>
           </div>
-          
         </div>
       </div>
     </div>
   );
 };
 
-function TextEditor({ onChange }: { onChange: (e: ChangeEvent<HTMLTextAreaElement>) => void }) {
+// TextEditor Component with expanding textarea
+function TextEditor({ onChange, content }: { onChange: (e: ChangeEvent<HTMLTextAreaElement>) => void, content: string }) {
   return (
     <textarea
       onChange={onChange}
+      value={content}
       rows={8}
-      className="focus:outline-none block w-full dark:text-white dark:bg-gray-700 rounded-lg px-0 text-sm text-gray-800 bg-white border border-gray-300 px-5 py-3"
+      className="focus:outline-none block w-full dark:text-white dark:bg-gray-700 rounded-lg px-0 text-sm text-gray-800 bg-white border border-gray-300 px-5 py-3 resize-none overflow-hidden"
       placeholder="Write an article ..."
+      style={{ height: 'auto' }}
+      onInput={(e) => {
+        e.currentTarget.style.height = 'auto';
+        e.currentTarget.style.height = `${e.currentTarget.scrollHeight}px`;
+      }}
       required
     />
   );
