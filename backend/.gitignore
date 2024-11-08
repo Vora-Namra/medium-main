@@ -11,7 +11,7 @@ yarn.lock
 pnpm-lock.yaml
 bun.lockb
 
-.env
+
 wrangler.toml
 
 # dev
@@ -29,6 +29,7 @@ node_modules/
 .wrangler
 
 # env
+.env
 .env
 .env.production
 .dev.vars
